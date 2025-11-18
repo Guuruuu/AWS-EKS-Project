@@ -148,5 +148,51 @@ EksClusterSG:
       - Key: Name
         Value: !Sub "${EnvName}-eks-cluster-sg"
 
+6. EKS Cluster Resource
 
+Uses:
+
+VPC + subnet IDs from the network stack (Milestone 1)
+
+The EKS IAM role
+
+The EKS Cluster SG
+
+Private endpoint only (no public API exposure)
+
+EksCluster:
+  Type: AWS::EKS::Cluster
+  Properties:
+    Name: !Ref ClusterName
+    Version: !Ref ClusterVersion
+    RoleArn: !GetAtt EksIamRole.Arn
+    ResourcesVpcConfig:
+      VpcId: !ImportValue mtier:VpcId
+      SubnetIds:
+        - !ImportValue mtier:AppSubnetA
+        - !ImportValue mtier:AppSubnetB
+      SecurityGroupIds:
+        - !Ref EksClusterSG
+      EndpointPublicAccess: false
+      EndpointPrivateAccess: true
+
+Security & Networking Behavior
+
+Bastion Host
+
+No inbound rules; access only via AWS Systems Manager Session Manager
+
+Can reach the Kubernetes API server on TCP 443
+
+EKS Control Plane
+
+Runs as a managed service, with ENIs attached to the private subnets
+
+Secured by EksClusterSG
+
+Only accepts API traffic from the Bastion SG at this stage
+
+VPC Integration
+
+All VPC/subnet IDs and CIDR values are imported from the network stack (Milestone 1) using !ImportValue.
 
