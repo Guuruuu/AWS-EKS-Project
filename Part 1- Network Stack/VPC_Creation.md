@@ -1,7 +1,12 @@
 # Milestone 1 – Foundations
 
 ## Objective
-Set up the base AWS infrastructure: custom VPC, EKS cluster, and core add-ons.
+## Architecture Design Decisions
+
+- Created 2 public subnets across different AZs for high availability.
+- Created 2 private subnets for EKS worker nodes.
+- NAT Gateway placed in public subnet to allow private subnet internet access.
+- Route tables separated for public and private traffic control.
 
 ---
 
