@@ -1,4 +1,4 @@
-# Kubernetes Milestone 5
+# Part 5 - Kubernetes App Deployment
 
 This folder contains Kubernetes manifests used to deploy an application in an EKS cluster.
 
