@@ -9,7 +9,7 @@ Parameters:
   ClusterVersion:
     Description: Version of the cluster
     Type: String
-    Default: 1.33
+    Default: 1.35
   BastionInstanceType:
     Description: Instance type for bastion host
     Type: String
@@ -134,6 +134,8 @@ Resources:
         RoleArn: !GetAtt EksIamRole.Arn
         ResourcesVpcConfig:
           SubnetIds: !Ref PrivateSubnets
+          SecurityGroupIds:
+            - !Ref EksClusterSG
         
 # ------------------------------------------------------------------------------------------
 
